@@ -1,0 +1,8 @@
+body { font-family: Inter, Arial, sans-serif; }
+.hover-shadow:hover { transform: translateY(-2px); box-shadow: 0 0.5rem 1rem rgba(0,0,0,.15)!important; transition: .2s ease-in-out; }
+.card-title { min-height: 48px; }
+
+.login-card { border: 1px solid #e9ecef; border-radius: 14px; }
+.login-card .form-control { border-radius: 10px; padding: 0.65rem 0.85rem; }
+.login-card .btn { border-radius: 10px; font-weight: 600; }
+.auth-actions { display: flex; flex-direction: column; gap: 0.35rem; }

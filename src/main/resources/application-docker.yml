@@ -1,0 +1,47 @@
+# Конфигурация для запуска приложения локально с подключением к Docker-контейнерам
+
+spring:
+  datasource:
+    # localhost:5433 — порт проброшен из контейнера PostgreSQL
+    url: jdbc:postgresql://localhost:5433/tour_booking?useSSL=false&serverTimezone=Europe/Moscow
+    username: ${DB_USERNAME:tour_user}
+    password: ${DB_PASSWORD:SecurePass123!}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+      connection-timeout: 30000
+      pool-name: TourBookingPool
+
+  jpa:
+    hibernate:
+      ddl-auto: update  # Для production использовать 'validate'
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        use_sql_comments: true
+        jdbc:
+          time_zone: Europe/Moscow
+
+  cache:
+    type: redis
+
+  data:
+    redis:
+      # localhost:6379 — порт проброшен из контейнера Redis
+      host: localhost
+      port: 6379
+      password: ${REDIS_PASSWORD:}
+      database: 0
+      timeout: 5000
+      lettuce:
+        pool:
+          max-active: 8
+          max-idle: 8
+          min-idle: 2
+
+app:
+  cache:
+    prefix: tb:v4

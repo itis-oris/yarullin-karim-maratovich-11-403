@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: tb-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: tour_booking
+      POSTGRES_USER: tour_user
+      POSTGRES_PASSWORD: SecurePass123!
+    ports:
+      - "5433:5432"
+    volumes:
+      - tb_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U tour_user -d tour_booking"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: tb-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - tb_redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+
+volumes:
+  tb_postgres_data:
+  tb_redis_data:
